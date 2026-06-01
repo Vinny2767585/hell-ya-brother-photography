@@ -1,0 +1,72 @@
+# Pages CMS Configuration for Hell Ya Brother Photography
+# This file enables a decoupled admin dashboard for managing images and gallery data
+
+cms:
+  # Site configuration
+  site_url: https://vinny2767585.github.io/hell-ya-brother-photography
+  repo: Vinny2767585/hell-ya-brother-photography
+  branch: main
+
+  # Media folder for uploaded images
+  media_folder: images
+  public_folder: /hell-ya-brother-photography/images
+
+  # Collections define editable content types
+  collections:
+    - name: gallery
+      label: Gallery
+      description: Manage car photography gallery
+      folder: images
+      create: false
+      extension: json
+      format: json
+      files:
+        - name: gallery_data
+          label: Gallery Images
+          file: ../images.json
+          format: json
+          fields:
+            # Array-type collection for gallery items
+            - name: gallery
+              label: Gallery Items
+              widget: list
+              fields:
+                - name: title
+                  label: Image Title
+                  widget: string
+                  required: true
+                  hint: "E.g., 'Midnight Cruiser' or 'Desert Beast'"
+                
+                - name: url
+                  label: Image
+                  widget: image
+                  required: true
+                  allow_multiple: false
+                  media_library:
+                    config:
+                      max_file_size: 5242880  # 5MB
+                  hint: "Upload car photography image (JPG, PNG recommended)"
+
+  # Backend configuration for GitHub
+  backend:
+    name: github
+    repo: Vinny2767585/hell-ya-brother-photography
+    branch: main
+    auth_endpoint: api/auth
+    commit_messages:
+      create: "Add new image to gallery: {{slug}}"
+      update: "Update gallery image: {{slug}}"
+      delete: "Remove image from gallery: {{slug}}"
+      uploadMedia: "Upload image asset: {{path}}"
+      deleteMedia: "Delete image asset: {{path}}"
+
+  # Preview settings
+  preview_context:
+    preview_path: https://vinny2767585.github.io/hell-ya-brother-photography
+
+  # Editor UI customization
+  editor:
+    preview: true
+
+  # Show a login page
+  public_folder_display_mode: simple
